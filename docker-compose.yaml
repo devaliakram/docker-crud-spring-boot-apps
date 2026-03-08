@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  # MySQL Database Service
+  mysql-db:
+    image: 'mysql:latest'
+    environment:
+      MYSQL_ROOT_PASSWORD: admin12
+      MYSQL_DATABASE: crud
+    ports:
+      - '3307:3306'
+
+  # Spring Boot Application Service
+  application:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: docker-spring-boot:1.0
+    depends_on:
+      - mysql-db
+    ports:
+      - '9292:9192'
+    environment:
+      # Database connection string using the service name 'mysql-db'
+      SPRING_DATASOURCE_URL: 'jdbc:mysql://mysql-db:3306/crud?allowPublicKeyRetrieval=true&useSSL=false'
+
+      # Credentials (Note: Ensure USERNAME matches your DB setup, typically 'root')
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: admin12
