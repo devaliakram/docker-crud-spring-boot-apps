@@ -25,6 +25,7 @@ public class ProductController {
 
     @GetMapping("/products")
     public List<Product> findAllProducts() {
+        System.out.println("this is from all product");
         return service.getProducts();
     }
 
